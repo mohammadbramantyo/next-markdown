@@ -27,10 +27,41 @@ function renderNavItem(navItems: NavItem[]) {
                                 <Link href={childNav.link} >{childNav.title}</Link>
                             </li>
                         )
-                    } )}
+                    })}
                 </ul>
             </div>
 
+        )
+    })
+}
+
+function renderSideNav(navItems: NavItem[]) {
+    return navItems.map((item) => {
+        if (item.children.length == 0 && item.link != null) {
+            return (
+                <li>
+                    <Link href={item.link}>
+                        {item.title}
+                    </Link>
+                </li>
+            )
+        }
+
+        return (
+            <li>
+                <details>
+                    <summary>{item.title}</summary>
+                    <ul>
+                        {item.children.map((navChild) => {
+                            return navChild.link != null && (
+                                <li>
+                                    <Link href={navChild.link}>{navChild.title}</Link>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </details>
+            </li>
         )
     })
 }
@@ -77,84 +108,7 @@ export default async function Navbar() {
             <div className="drawer-side">
                 <label htmlFor="my-drawer-3" className="drawer-overlay "></label>
                 <ul className="menu p-4 w-72 h-full bg-primary ">
-                    <li>
-                        <details>
-                            <summary>Project</summary>
-                            <ul>
-                                <li>
-                                    <Link href={"/contribution"} >Contribution</Link>
-                                </li>
-                                <li>
-                                    <Link href="/description" >Description</Link>
-                                </li>
-                                <li>
-                                    <Link href={"/engineering"} >Engineering</Link>
-                                </li>
-                                <li>
-                                    <Link href={"/"} >Experiments</Link>
-                                </li>
-                                <li>
-                                    <Link href={"/"} >Notebook</Link>
-                                </li>
-                                <li>
-                                    <Link href={"/result"} >Result</Link>
-                                </li>
-                            </ul>
-                        </details>
-                    </li>
-                    <li>
-                        <details>
-                            <summary>Wet Lab</summary>
-                            <ul>
-                                <li>
-                                    <Link href={"/proof-of-concept"} >Proof of Concept</Link>
-                                </li>
-                                <li>
-                                    <Link href="/protocols" >Protocols</Link>
-                                </li>
-                                <li>
-                                    <Link href={"/experiments"} >Experiments</Link>
-                                </li>
-                            </ul>
-                        </details>
-                    </li>
-                    <li>
-                        <Link href={"/human-practices"}>
-                            Human Practices
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={"/safety"}>
-                            Safety
-                        </Link>
-                    </li>
-                    <li>
-                        <details>
-                            <summary>Team</summary>
-                            <ul>
-                                <li>
-                                    <Link href={"/team"} >Team</Link>
-                                </li>
-                                <li>
-                                    <Link href={""} >Attribution</Link>
-                                </li>
-                            </ul>
-                        </details>
-                    </li>
-                    <li>
-                        <details>
-                            <summary>Awards</summary>
-                            <ul>
-                                <li>
-                                    <Link href={"/education"} >Education</Link>
-                                </li>
-                                <li>
-                                    <Link href="sustainable/" >Sustainable Development</Link>
-                                </li>
-
-                            </ul>
-                        </details>
-                    </li>
+                    {renderSideNav(navbarContent)}
                 </ul>
 
             </div>
