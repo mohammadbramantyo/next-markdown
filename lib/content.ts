@@ -4,7 +4,7 @@ import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
 
-export async function getMarkdownContent(filepath: string): Promise<string> {
+export async function getMarkdownContent(filepath: string) {
     const fullpath = path.join(process.cwd(), filepath);
     const fileContent = fs.readFileSync(fullpath, 'utf-8');
 
@@ -26,7 +26,14 @@ export async function getMarkdownContent(filepath: string): Promise<string> {
         }
     );
 
+    // Change image to figure
+    htmlString = htmlString.replace(
+        /<p>\s*<img([^>]+)>\s*<em>(.*?)<\/em>\s*<\/p>/g,
+        (match, imgAttributes, captionText) => {
+          return `<figure><img${imgAttributes}><figcaption>${captionText}</figcaption></figure>`;
+        }
+      );    
 
 
-    return htmlString;
+    return {metadata ,htmlString};
 }

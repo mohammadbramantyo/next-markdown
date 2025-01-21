@@ -1,7 +1,7 @@
 ---
-title: 'Description'
+title: 'Project Description'
 date: '2020-01-02'
-hero-image: '/'
+hero_image_url: 'https://res.cloudinary.com/dfiwwzq2y/image/upload/v1737457703/bolete-mushrooms-6713026_1920_kjdhoi.jpg'
 ---
 
 
@@ -16,4 +16,4 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
 ![Image Sample](/images/dog.jpg "image title")
-*image_caption*
+_Caption for the image_

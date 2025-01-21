@@ -41,7 +41,7 @@ export default function TableOfContents({ headers }: { headers: Header[] }) {
     }, []);
 
     return (
-        <div className="pl-10 fixed">
+        <div className="pl-10">
             <h2 className="uppercase font-bold tracking-widest mt-8 scroll-mt-5">
                 Content List
             </h2>

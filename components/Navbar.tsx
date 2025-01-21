@@ -8,7 +8,9 @@ function renderNavItem(navItems: NavItem[]) {
         // Navbar withhout dropdown
         if (item.children.length == 0 && item.link != null) {
             return (
-                <Link href={item.link} className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">
+                <Link
+                key={item.title} 
+                href={item.link} className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center font-bold">
                     {item.title}
                 </Link>
             )
@@ -17,13 +19,15 @@ function renderNavItem(navItems: NavItem[]) {
         // Navbar with dropdown
         return (
             <div className="dropdown dropdown-bottom dropdown-end cursor-pointer">
-                <label tabIndex={0} className="m-1 cursor-pointer bg-primary border-none relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">
+                <label key={item.title} 
+                tabIndex={0} className="m-1 cursor-pointer bg-primary border-none relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center font-bold">
                     {item.title}
                 </label>
                 <ul tabIndex={0} className={'dropdown-content z-40 menu w-40 bg-[#FFFEF1] rounded-md p-0'}>
                     {item.children.map((childNav) => {
                         return childNav.link != null && (
-                            <li className="text-black hover:bg-slate-400 rounded hover:text-white">
+                            <li key={childNav.title} 
+                            className="text-black hover:bg-slate-400 rounded hover:text-white">
                                 <Link href={childNav.link} >{childNav.title}</Link>
                             </li>
                         )
@@ -78,7 +82,7 @@ export default async function Navbar() {
             <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content flex flex-col">
                 {/* Navbar */}
-                <nav className="w-full navbar bg-primary ">
+                <nav className="w-full navbar bg-slate-300">
                     <div className="flex-none lg:hidden">
                         <label htmlFor="my-drawer-3" className="btn btn-square btn-ghost">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -107,7 +111,7 @@ export default async function Navbar() {
             {/* SideNav */}
             <div className="drawer-side">
                 <label htmlFor="my-drawer-3" className="drawer-overlay "></label>
-                <ul className="menu p-4 w-72 h-full bg-primary ">
+                <ul className="menu p-4 w-72 h-full bg-slate-400 ">
                     {renderSideNav(navbarContent)}
                 </ul>
 

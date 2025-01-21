@@ -30,3 +30,15 @@ body {
 html{
   scroll-behavior: smooth;
 }
+
+figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+figcaption {
+  margin-top: 8px;
+  color: gray; /* Optional for styling */
+}

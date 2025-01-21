@@ -23,8 +23,6 @@ export async function getNavContent() {
         .use(html)
         .process(content);
 
-    console.log(processedContent.toString());
-    
 
     const jsonResult = HtmltoJson(processedContent.toString());
     return jsonResult;
