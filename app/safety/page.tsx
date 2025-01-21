@@ -7,7 +7,7 @@ import Hero from '@/components/Hero';
 
 export default async function page() {
 
-  const { metadata, htmlString } = await getMarkdownContent('/contents/description.md');
+  const { metadata, htmlString } = await getMarkdownContent('/contents/safety.md');
   const headers = getHeaders(htmlString);
 
   return (
