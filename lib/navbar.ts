@@ -13,8 +13,8 @@ export interface NavItem {
 }
 
 
-export async function getNavContent(filepath: string) {
-    const fullpath = path.join(process.cwd(), filepath);
+export async function getNavContent() {
+    const fullpath = path.join(process.cwd(), 'contents/navbar.md');
     const fileContent = fs.readFileSync(fullpath, 'utf-8');
 
     const { data: metadata, content } = matter(fileContent);
@@ -22,6 +22,9 @@ export async function getNavContent(filepath: string) {
     const processedContent = await remark()
         .use(html)
         .process(content);
+
+    console.log(processedContent.toString());
+    
 
     const jsonResult = HtmltoJson(processedContent.toString());
     return jsonResult;
@@ -36,8 +39,13 @@ function HtmltoJson(htmlString: string) {
 
     $('body').children().each((_, element) => {
         const tagName = element.tagName;
-
-        if (tagName === 'p') {
+        
+        if (tagName === 'p' && $(element).find('a').length) {
+            // Handle standalone links
+            const link = $(element).find('a').attr('href') || null;
+            const title = $(element).find('a').text().trim();
+            navItems.push({ title, link, children: [] });
+        }else if (tagName === 'p') {
             // Start a new section
             const sectionTitle = $(element).text().trim();
             currentSection = { title: sectionTitle, link: null, children: [] };
@@ -54,12 +62,8 @@ function HtmltoJson(htmlString: string) {
                 .get();
 
             currentSection.children.push(...items);
-        } else if (tagName === 'p' && $(element).find('a').length) {
-            // Handle standalone links
-            const link = $(element).find('a').attr('href') || null;
-            const title = $(element).find('a').text().trim();
-            navItems.push({ title, link, children: [] });
-        }
+        } 
+        
     });
 
     return navItems;

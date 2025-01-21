@@ -1,16 +1,46 @@
-'use client'
 import Link from "next/link"
 import Image from "next/image";
+import { getNavContent, NavItem } from "@/lib/navbar";
+
+
+function renderNavItem(navItems: NavItem[]) {
+    return navItems.map((item) => {
+        // Navbar withhout dropdown
+        if (item.children.length == 0 && item.link != null) {
+            return (
+                <Link href={item.link} className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">
+                    {item.title}
+                </Link>
+            )
+        }
+
+        // Navbar with dropdown
+        return (
+            <div className="dropdown dropdown-bottom dropdown-end cursor-pointer">
+                <label tabIndex={0} className="m-1 cursor-pointer bg-primary border-none relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">
+                    {item.title}
+                </label>
+                <ul tabIndex={0} className={'dropdown-content z-40 menu w-40 bg-[#FFFEF1] rounded-md p-0'}>
+                    {item.children.map((childNav) => {
+                        return childNav.link != null && (
+                            <li className="text-black hover:bg-slate-400 rounded hover:text-white">
+                                <Link href={childNav.link} >{childNav.title}</Link>
+                            </li>
+                        )
+                    } )}
+                </ul>
+            </div>
+
+        )
+    })
+}
 
 
 // This Navbar uses DaisyUi, see https://daisyui.com/components/navbar/ for more info
-export default function Navbar() {
+export default async function Navbar() {
 
-    const handleClick = (): void => {
-        if (document.activeElement instanceof HTMLElement) {
-            document.activeElement.blur();
-        }
-    };
+
+    const navbarContent = await getNavContent();
 
     return (
         <div className="drawer z-50 sticky top-0" aria-label="Sidebar">
@@ -36,81 +66,9 @@ export default function Navbar() {
                         </Link>
                     </div>
                     <div className="navbar-end hidden lg:flex lg:justify-around">
-                        <div className="dropdown dropdown-hover cursor-pointer">
-                            <label tabIndex={0} className="m-1 cursor-pointer bg-primary border-none relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">
-                                Project
-                            </label>
-                            <ul tabIndex={0} className={'dropdown-content z-40 menu w-40 bg-[#FFFEF1] rounded-md p-0'}>
-                                <li className="text-black hover:bg-slate-400 p-0">
-                                    <Link href={"/contribution"} >Contribution</Link>
-                                </li>
-                                <li className="text-black">
-                                    <Link href="/description" >Description</Link>
-                                </li>
-                                <li className="text-black">
-                                    <Link href={"/engineering"} >Engineering</Link>
-                                </li>
-                                <li className="text-black">
-                                    <Link href={"/"} >Experiments</Link>
-                                </li>
-                                <li className="text-black">
-                                    <Link href={"/"} >Notebook</Link>
-                                </li>
-                                <li className="text-black">
-                                    <Link href={"/result"} >Result</Link>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="dropdown dropdown-hover cursor-pointer">
-                            <label tabIndex={0} className="m-1 cursor-pointer bg-primary border-none relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">
-                                Wet Lab
-                            </label>
-                            <ul tabIndex={0} className={'dropdown-content z-40 menu p-2 w-40 bg-[#FFFEF1] rounded-md'}>
-                                <li className="text-black">
-                                    <Link href={"/proof-of-concept"} >Proof of Concept</Link>
-                                </li>
-                                <li className="text-black">
-                                    <Link href="/protocols" >Protocol</Link>
-                                </li>
-                                <li className="text-black">
-                                    <Link href={"/experiments"} >Experiment</Link>
-                                </li>
 
+                        {renderNavItem(navbarContent)}
 
-                            </ul>
-                        </div>
-                        <Link href={"/human-practices"} className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">
-                            Human Practices
-                        </Link>
-                        <Link href={"/safety"} className="relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">
-                            Safety
-                        </Link>
-                        <div className="dropdown dropdown-hover cursor-pointer">
-                            <label tabIndex={0} className="cursor-pointer m-1 relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">
-                                Team
-                            </label>
-                            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 w-40 bg-[#FFFEF1] rounded-md">
-                                <li className="text-black">
-                                    <Link href={"/team"} >Team</Link>
-                                </li>
-                                <li className="text-black">
-                                    <Link href={"/attributions"} >Atrribution</Link>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="dropdown dropdown-hover  dropdown-end cursor-pointer">
-                            <label tabIndex={0} className=" cursor-pointer m-1 relative text-sm w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center">
-                                Awards
-                            </label>
-                            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 w-40 bg-[#FFFEF1] rounded-md">
-                                <li className="text-black">
-                                    <Link href={"/education"} >Education</Link>
-                                </li>
-                                <li className="text-black">
-                                    <Link href={"/sustainable"} >Sustainable Development</Link>
-                                </li>
-                            </ul>
-                        </div>
 
                     </div>
                 </nav>

@@ -8,9 +8,7 @@ import { getNavContent } from '@/lib/navbar';
 export default async function page() {
 
   const content = await getMarkdownContent('/contents/project-description.md');
-  const headers = getHeaders(content);  
-
-  const navcontent = await getNavContent('/contents/navbar.md');
+  const headers = getHeaders(content); 
   
   
   return (
